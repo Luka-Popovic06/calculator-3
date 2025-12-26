@@ -1,0 +1,24 @@
+#root {
+  background-color: gray;
+  width: 420px;
+  height: 600px;
+  border-radius: 20px;
+  margin: 70px;
+  padding: 20px;
+}
+/*Display*/
+.display {
+  background-color: #fff;
+  width: 100%;
+  height: 130px;
+}
+.output-secondary {
+  text-align: right;
+  font-size: 18px;
+  padding: 20px 7px 20px 20px;
+}
+.output-main {
+  font-size: 45px;
+  text-align: right;
+  padding: 20px 7px 0px 20px;
+}
