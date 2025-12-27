@@ -10,6 +10,24 @@ function App() {
     operator: "",
   });
 
+  const calculate = (a, b, operator) => {
+    if (a === "" && b === "" && operator === "") return;
+    const numA = Number(a);
+    const numB = Number(b);
+    switch (operator) {
+      case "+":
+        return numA + numB;
+      case "-":
+        return numA - numB;
+      case "/":
+        return numA / numB;
+      case "*":
+        return numA * numB;
+      default:
+        return;
+    }
+  };
+
   return (
     <>
       <div className="display">
