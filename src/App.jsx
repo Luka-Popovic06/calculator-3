@@ -28,6 +28,60 @@ function App() {
     }
   };
 
+  const handleButtonClick = (value, first) => {
+    //moram da stavim da ovo ne sme da se izvrsava
+    //if first === ""
+    //if first !== "" second !== "" operaion!==""
+    switch (value) {
+      case "-":
+      case "+":
+      case "*":
+      case "/":
+        setCalculatorState((prev) =>
+          prev.operator === ""
+            ? {
+                operator: value,
+                secondOperand: prev.firstOperand,
+                firstOperand: "",
+              }
+            : {
+                secondOperand: calculate(
+                  prev.secondOperand,
+                  prev.firstOperand,
+                  prev.operator
+                ),
+                firstOperand: "",
+                operator: value,
+              }
+        );
+        break;
+      case "=":
+        setCalculatorState((prev) => ({
+          firstOperand: calculate(
+            prev.secondOperand,
+            prev.firstOperand,
+            prev.operator
+          ),
+          secondOperand: "",
+          operator: "",
+        }));
+        break;
+      case ".":
+        if (!first.includes(".") && first !== "") {
+          setCalculatorState((prev) => ({
+            ...prev,
+            firstOperand: `${prev.firstOperand}${value}`,
+          }));
+        }
+        break;
+      default:
+        setCalculatorState((prev) => ({
+          ...prev,
+          firstOperand: `${prev.firstOperand}${value}`,
+        }));
+        return;
+    }
+  };
   return (
     <>
       <div className="display">
