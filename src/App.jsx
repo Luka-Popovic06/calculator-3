@@ -92,6 +92,29 @@ function App() {
     }));
   };
 
+  const handleButtonClick = (variation, value) => {
+    switch (variation) {
+      case "standard":
+        processButtonValue(
+          value,
+          calculatorState.firstOperand,
+          calculatorState.secondOperand
+        );
+        break;
+      case "secondary":
+        deleteLastDigit(String(calculatorState.firstOperand));
+        break;
+      case "primary":
+        setCalculatorState({
+          firstOperand: "",
+          secondOperand: "",
+          operator: "",
+        });
+        break;
+      default:
+        return;
+    }
+  };
   return (
     <>
       <div className="display">
