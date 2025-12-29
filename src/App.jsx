@@ -10,7 +10,7 @@ function App() {
     operator: "",
   });
 
-  const calculate = (a, b, operator) => {
+  const calculateResult = (a, b, operator) => {
     if (a === "" && b === "" && operator === "") return;
     const numA = Number(a);
     const numB = Number(b);
@@ -28,43 +28,44 @@ function App() {
     }
   };
 
-  const handleButtonClick = (value, first) => {
-    //moram da stavim da ovo ne sme da se izvrsava
-    //if first === ""
-    //if first !== "" second !== "" operaion!==""
+  const processButtonValue = (value, first, second) => {
     switch (value) {
       case "-":
       case "+":
       case "*":
       case "/":
-        setCalculatorState((prev) =>
-          prev.operator === ""
-            ? {
-                operator: value,
-                secondOperand: prev.firstOperand,
-                firstOperand: "",
-              }
-            : {
-                secondOperand: calculate(
-                  prev.secondOperand,
-                  prev.firstOperand,
-                  prev.operator
-                ),
-                firstOperand: "",
-                operator: value,
-              }
-        );
+        if (first !== "") {
+          setCalculatorState((prev) =>
+            prev.operator === ""
+              ? {
+                  operator: value,
+                  secondOperand: prev.firstOperand,
+                  firstOperand: "",
+                }
+              : {
+                  secondOperand: calculateResult(
+                    prev.secondOperand,
+                    prev.firstOperand,
+                    prev.operator
+                  ),
+                  firstOperand: "",
+                  operator: value,
+                }
+          );
+        }
         break;
       case "=":
-        setCalculatorState((prev) => ({
-          firstOperand: calculate(
-            prev.secondOperand,
-            prev.firstOperand,
-            prev.operator
-          ),
-          secondOperand: "",
-          operator: "",
-        }));
+        if (first !== "" && second !== "") {
+          setCalculatorState((prev) => ({
+            firstOperand: calculateResult(
+              prev.secondOperand,
+              prev.firstOperand,
+              prev.operator
+            ),
+            secondOperand: "",
+            operator: "",
+          }));
+        }
         break;
       case ".":
         if (!first.includes(".") && first !== "") {
@@ -82,6 +83,15 @@ function App() {
         return;
     }
   };
+
+  const deleteLastDigit = (first) => {
+    if (first === "") return;
+    setCalculatorState((prev) => ({
+      ...prev,
+      firstOperand: first.slice(0, -1),
+    }));
+  };
+
   return (
     <>
       <div className="display">
@@ -94,9 +104,7 @@ function App() {
         {calculatorButtons.map((btn, index) => (
           <Button
             key={index}
-            clickAction={() =>
-              handleButtonClick(btn.text, calculatorState.firstOperand)
-            }
+            clickAction={() => handleButtonClick(btn.variation, btn.text)}
             btnType={btn.type}
             variation={btn.variation}
           >
